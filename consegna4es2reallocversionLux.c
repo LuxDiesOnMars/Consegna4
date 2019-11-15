@@ -12,7 +12,7 @@ int main(void)
     printf("inserisci valore max:");
     scanf("%d",&valore);
     int *ptrDin;
-    int *contProvvisorio;
+    int *contProvvisorio=(int *)malloc(sizeof(int));
 
     while(valore!=1)
     {
@@ -24,24 +24,25 @@ int main(void)
         if(primo==true)
         {
             ++cont;
-            contProvvisorio=((int*) malloc(sizeof(int)*cont));
+
             if(cont==1)
             {
-                *contProvvisorio=valore;
+                ptrDin=(int *) malloc(sizeof(int));
+                *ptrDin=valore;
             }
             else
             {
-                //realloc(contProvvisorio,sizeof(int)*cont);
+                contProvvisorio=(int *)realloc(contProvvisorio,sizeof(int)*cont);
                 memcpy(contProvvisorio,ptrDin,sizeof(int)*(cont-1));
                 contProvvisorio[cont-1]=valore;
+                ptrDin=(int *)realloc(ptrDin,sizeof(int)*cont);
+                memcpy(ptrDin,contProvvisorio,sizeof(int)*cont);
             }
-            realloc(ptrDin,sizeof(int)*cont);
-            memcpy(ptrDin,contProvvisorio,sizeof(int)*cont);
+
         }
         valore--;
-        free(contProvvisorio);
     }
-
+    free(contProvvisorio);
     printf("numeri primi fino a valore inserito:\n");
     for(int j=cont-1;j>=0;j--)
     {
